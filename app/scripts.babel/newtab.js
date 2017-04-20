@@ -1,134 +1,72 @@
-'use strict';
+import { quotes, hellos } from './quotes';
 
-const quotes = [
-  '\"Is it nice is it\'s necessary is it true?\"',
-  '\"Fail Better.\"',
-  '\"When life happens, you can be either the author of your life or the victim of it.\"',
-  '\"In my walks, every man I meet is my superior in some way, and in that I learn from him.\"',
-  '\"Today I will do what others won\'t, so tomorrow I can accomplish what others can\'t.\"',
-  '\"What\'s the ONE thing I can do such that by doing it everything else will be easier or unnecessary\"',
-  '\"10% of life is 90% of what you make of it\"',
-  '\"Find the lead domino and whack away at it until it falls\"',
-  '\"I believe that financially wealthy people are those who have enough money coming in without having to work to finance their purpose in life. Now, please realize that this definition presents a challenge to anyone who accepts it. To be financially wealthy you must have a purpose for your life.\"',
-];
 
-const hello = [
-  'Bonjour', 'Hola', 'Guten Tag', 'Ciao', 'Namaste', 'Salaam', 'Konnichiwa', 'Merhaba', 'Szia', 'Marhaba', 'Sannu', 'Jambo', 'Ni Hau', 'Halo',
-];
+const userName = 'Kyle';
+const second = 1000;
+const minute = second * 60;
+const hour = minute * 60;
+const day = hour * 24;
 
-const drinks = new Date('09/26/2016 06:1 AM');
-const coffee = new Date('03/09/2017 06:1 AM');
-const meat = new Date('03/18/2017 06:1 AM');
-const age = new Date('05/27/1973 06:1 AM');
-const _second = 1000;
-let _minute = _second * 60;
-let _hour = _minute * 60;
-let _day = _hour * 24;
-const items = [drinks, coffee, meat, age];
+const dates = {
+  soda: {
+    date: new Date('12/24/2016 06:00 AM'),
+    id: 'soda'
+  },
+  workout: {
+    date: new Date('03/09/2017 05:00 AM'),
+    id: 'workout'
+  },
+  age: {
+    date: new Date('07/09/1986 04:00 AM'),
+    id: 'age'
+  }
+};
 
-//fix this
-// const items = {
-//   drinks: new Date('09/26/2016 06:1 AM');
-//   drinks: new Date('09/26/2016 06:1 AM');
-//   drinks: new Date('09/26/2016 06:1 AM');
-//   drinks: new Date('09/26/2016 06:1 AM');
-// }
-
-function newQuote() {
+const newQuote = () => {
   const randomQuote = Math.floor(Math.random() * (quotes.length));
   document.getElementById('quotate').innerHTML = quotes[randomQuote];
-}
+};
 
-function newGreeting() {
-  const randomGreet = Math.floor(Math.random() * (hello.length));
-  document.getElementById('hi').innerHTML = hello[randomGreet];
-}
+const newGreeting = () => {
+  const randomGreet = Math.floor(Math.random() * (hellos.length));
+  document.getElementById('hi').innerHTML = hellos[randomGreet];
+};
 
-function newUser() {
-  const userName = 'Scott';
+const newUser = () => {
   localStorage.setItem('userName', JSON.stringify(userName));
   const retrievedObject = localStorage.getItem('userName');
-  console.log('retrievedObject: ', JSON.parse(retrievedObject));
   document.getElementById('user').innerHTML = JSON.parse(retrievedObject);
 };
 
-function deployDates() {
+const calcTime = startDate => () => {
   const now = new Date();
-  const distance = now - items[0];
-  const days = Math.floor(distance / _day);
-  const hours = Math.floor((distance % _day) / _hour);
-  const minutes = Math.floor((distance % _hour) / _minute);
-  const seconds = Math.floor((distance % _minute) / _second);
+  const distance = now - startDate;
+  const days = Math.floor(distance / day);
+  const hours = Math.floor((distance % day) / hour);
+  const minutes = Math.floor((distance % hour) / minute);
+  const seconds = Math.floor((distance % minute) / second);
   return [now, distance, days, hours, minutes, seconds];
 };
 
+const displayTime = (calcFn, id) => {
+  const [now, distance, days, hours, minutes, seconds] = calcFn();
 
-function deployCoffee() {
-  const now = new Date();
-  const distance = now - items[1];
-  const days = Math.floor(distance / _day);
-  const hours = Math.floor((distance % _day) / _hour);
-  const minutes = Math.floor((distance % _hour) / _minute);
-  const seconds = Math.floor((distance % _minute) / _second);
-  return [now, distance, days, hours, minutes, seconds];
+  document.getElementById(`days-${id}`).innerHTML = days + ' Days ';
+  document.getElementById(`hours-${id}`).innerHTML = hours + 'h ';
+  document.getElementById(`mins-${id}`).innerHTML = minutes + 'm ';
+  document.getElementById(`secs-${id}`).innerHTML = seconds + 's ';
 };
-
-function deployMeat() {
-  const now = new Date();
-  const distance = now - items[2];
-  const days = Math.floor(distance / _day);
-  const hours = Math.floor((distance % _day) / _hour);
-  const minutes = Math.floor((distance % _hour) / _minute);
-  const seconds = Math.floor((distance % _minute) / _second);
-  return [now, distance, days, hours, minutes, seconds];
-};
-
-function deployAge() {
-  const now = new Date();
-  const distance = now - items[3];
-  const days = Math.floor(distance / _day);
-  const hours = Math.floor((distance % _day) / _hour);
-  const minutes = Math.floor((distance % _hour) / _minute);
-  const seconds = Math.floor((distance % _minute) / _second);
-  return [now, distance, days, hours, minutes, seconds];
-};
-
-function displayDrinks() {
-  const [now, distance, days, hours, minutes, seconds] = deployDates();
-  document.getElementById('days').innerHTML = days + ' Days ';
-  document.getElementById('hours').innerHTML = hours + 'h ';
-  document.getElementById('mins').innerHTML = minutes + 'm ';
-  document.getElementById('secs').innerHTML = seconds + 's ';
-};
-
-function displayCoffee() {
-  const [now, distance, days, hours, minutes, seconds] = deployCoffee();
-  document.getElementById('days-java').innerHTML = days + ' Days ';
-  document.getElementById('hours-java').innerHTML = hours + 'h ';
-  document.getElementById('mins-java').innerHTML = minutes + 'm ';
-  document.getElementById('secs-java').innerHTML = seconds + 's ';
-}
-
-function displayMeat() {
-  const [now, distance, days, hours, minutes, seconds] = deployMeat();
-  document.getElementById('days-meat').innerHTML = days + ' Days ';
-  document.getElementById('hours-meat').innerHTML = hours + 'h ';
-  document.getElementById('mins-meat').innerHTML = minutes + 'm ';
-  document.getElementById('secs-meat').innerHTML = seconds + 's ';
-}
-
-function displayAge() {
-  const [now, distance, days, hours, minutes, seconds] = deployAge();
-  document.getElementById('days-age').innerHTML = days + ' Days ';
-  document.getElementById('hours-age').innerHTML = hours + 'h ';
-  document.getElementById('mins-age').innerHTML = minutes + 'm ';
-  document.getElementById('secs-age').innerHTML = seconds + 's ';
-}
 
 newUser();
 newGreeting();
 newQuote();
-const list = [displayDrinks, displayCoffee, displayMeat, displayAge];
-list.forEach(fn => {
-  setInterval(fn, 50);
-})
+
+const list = [dates.soda, dates.workout, dates.age];
+
+list.forEach(date => {
+  const calcFn = calcTime(date.date);
+
+  setInterval(() => {
+    displayTime(calcFn, date.id);
+  }, 50);
+});

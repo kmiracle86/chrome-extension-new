@@ -28,7 +28,10 @@
     "gulp-zip": "^3.2.0",
     "main-bower-files": "^2.11.1",
     "run-sequence": "^1.1.5",
-    "wiredep": "^4.0.0"
+    "wiredep": "^4.0.0",
+    "babelify": "^7.2.0",
+    "browserify": "^13.0.0",
+    "vinyl-source-stream": "^1.1.0"
   },
   "eslintConfig": {
     "env": {
@@ -44,6 +47,16 @@
         2,
         "single"
       ]
+    },
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "modules": true
+      }
     }
+  },
+  "dependencies": {
+    "node-sass": "^3.3.3"
   }
 }
